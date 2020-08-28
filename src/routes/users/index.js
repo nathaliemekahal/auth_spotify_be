@@ -8,7 +8,8 @@ router.post("/", async (req, res, next) => {
   try {
     const newUser = new userModel(req.body);
     const response = await newUser.save();
-    res.send(response);
+    const token = await authenticate(response);
+    res.send(token);
   } catch (error) {
     next(error);
   }
@@ -23,7 +24,7 @@ router.get(
   "/facebookRedirect",
   passport.authenticate("google"),
   async (req, res, next) => {
-    try {
+    try { 
       res.redirect("http://localhost:3000/home");
     } catch (error) {}
   }

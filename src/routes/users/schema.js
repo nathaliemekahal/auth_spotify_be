@@ -4,8 +4,8 @@ const bcrypt = require("bcrypt");
 const { model, Schema } = require("mongoose");
 
 const userSchema = new Schema({
-  name: { type: String, required: true },
-  surname: { type: String, required: true },
+  name: { type: String },
+  surname: { type: String },
   email: {
     type: String,
     // validate: {
@@ -35,7 +35,7 @@ userSchema.methods.toJSON = function () {
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
-    user.password = await bcrypt.hash(student.password, 8);
+    user.password = await bcrypt.hash(user.password, 8);
   }
   next();
 });

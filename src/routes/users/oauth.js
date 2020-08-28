@@ -1,6 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const userModel = require("./schema");
+const { authenticate } = require("../../middlewares/authTools");
 
 passport.use(
   "google",
@@ -13,22 +14,21 @@ passport.use(
     },
     async (request, accessToken, refreshToken, profile, done) => {
       const newUser = {
+        googleId: profile.id,
         name: profile.name.givenName,
-        surname: profile.name.familyname,
+        surname: profile.name.familyName,
         email: profile.emails[0].value,
       };
-
       try {
-        console.log("trying!!!!!!");
         const user = userModel.findOne({ googleId: profile.id });
-        console.log("USER", user);
         if (user.name) {
-          done(null, user);
+          const token = authenticate(user);
+          done(null, { user, token });
         } else {
-          console.log("NOTUSER", user);
           const createdUser = await userModel.create(newUser);
+          const token = authenticate(createdUser);
 
-          done(null, createdUser);
+          done(null, { user: createdUser, token });
         }
       } catch (error) {
         done(error);
