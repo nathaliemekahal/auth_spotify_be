@@ -3,15 +3,17 @@ const cors = require("cors");
 const listEndpoints = require("express-list-endpoints");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const userRoute = require("./routes/users");
 
 dotenv.config();
 
 const server = express();
 const port = process.env.PORT;
 server.use(express.json());
+server.use("/user", userRoute);
 
 mongoose
-  .connect(process.env.MONGO_CONNECTION_STRING, {
+  .connect("mongodb://localhost:27017/spotify-auth", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
