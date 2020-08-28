@@ -4,12 +4,17 @@ const listEndpoints = require("express-list-endpoints");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoute = require("./routes/users");
+const passport = require("passport");
+const oauth = require("../src/routes/users/oauth");
 
 dotenv.config();
 
 const server = express();
 const port = process.env.PORT;
 server.use(express.json());
+server.use(cors());
+
+server.use(passport.initialize());
 server.use("/user", userRoute);
 
 mongoose

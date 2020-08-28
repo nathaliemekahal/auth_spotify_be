@@ -18,7 +18,8 @@ const userSchema = new Schema({
     //   message: "Check your email",
     // },
   },
-  password: { type: String, required: true },
+  password: { type: String },
+  facebookId: String,
 });
 
 userSchema.methods.toJSON = function () {
