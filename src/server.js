@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const userRoute = require("./routes/users");
 const passport = require("passport");
 const oauth = require("../src/routes/users/oauth");
+const deezerRoute = require("./routes/deezer");
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ server.use(cors());
 
 server.use(passport.initialize());
 server.use("/user", userRoute);
+server.use("/deezer", deezerRoute);
 
 mongoose
   .connect("mongodb://localhost:27017/spotify-auth", {
@@ -26,6 +28,7 @@ mongoose
   .then(
     server.listen(port, () => {
       console.log("Running on port", port);
+      console.log(listEndpoints(server));
     })
   )
   .catch((err) => console.log(err));

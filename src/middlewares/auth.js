@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../routes/users/schema");
 const { verifyJWT } = require("./authTools");
-const basicAuth = require('basic-auth') 
+const basicAuth = require("basic-auth");
+const auth = require("basic-auth");
 
 const authorize = async (req, res, next) => {
   try {
-    
+    const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = await verifyJWT(token);
     const user = await userModel.findOne({
       _id: decoded._id,
@@ -23,3 +24,5 @@ const authorize = async (req, res, next) => {
     next(e);
   }
 };
+
+module.exports=authorize

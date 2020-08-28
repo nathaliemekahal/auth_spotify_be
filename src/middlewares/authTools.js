@@ -4,7 +4,7 @@ const authenticate = async (user) => {
   try {
     // generate tokens
     const newAccessToken = await generateJWT({ _id: user._id });
-    return { token: newAccessToken};
+    return { token: newAccessToken };
   } catch (error) {
     console.log(error);
     throw new Error(error);
@@ -16,7 +16,7 @@ const generateJWT = (payload) =>
     jwt.sign(
       payload,
       process.env.JWT_SECRET_KEY,
-      { expiresIn: 120 },
+      { expiresIn: 3600 },
       (err, token) => {
         if (err) rej(err);
         res(token);
@@ -32,5 +32,4 @@ const verifyJWT = (token) =>
     })
   );
 
-
-module.exports = { authenticate, verifyJWT};
+module.exports = { authenticate, verifyJWT };
