@@ -41,18 +41,19 @@ router.get("/artist", authorize, async (req, res, next) => {
   } catch (error) {}
 });
 
-router.get("artist/:id", authorize, async (req, res, next) => {
+router.get("/artist/:id", authorize, async (req, res, next) => {
   try {
-    axiosRequest.url = `https://deezerdevs-deezer.p.rapidapi.com/artist/${req.param.id}`;
+    axiosRequest.url = `https://deezerdevs-deezer.p.rapidapi.com/artist/${req.params.id}`;
     const data = await axios(axiosRequest);
     if ((data.status = 200)) res.send(data.data);
     else res.status(404).send("not found");
   } catch (error) {}
 });
-router.get("album/:id", authorize, async (req, res, next) => {
+router.get("/album/:id", authorize, async (req, res, next) => {
   try {
-    axiosRequest.url = `https://deezerdevs-deezer.p.rapidapi.com/album/${req.param.id}`;
+    axiosRequest.url = `https://deezerdevs-deezer.p.rapidapi.com/album/${req.params.id}`;
     const data = await axios(axiosRequest);
+    console.log(data);
     if ((data.status = 200)) res.send(data.data);
     else res.status(404).send("not found");
   } catch (error) {}

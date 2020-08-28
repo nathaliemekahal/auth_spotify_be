@@ -24,7 +24,7 @@ router.get(
   passport.authenticate("google"),
   async (req, res, next) => {
     try {
-      res.redirect("http://localhost:3000/");
+      res.redirect("http://localhost:3000/home");
     } catch (error) {}
   }
 );

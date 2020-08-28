@@ -7,6 +7,7 @@ const auth = require("basic-auth");
 const authorize = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
+    console.log("TOKEN", token);
     const decoded = await verifyJWT(token);
     const user = await userModel.findOne({
       _id: decoded._id,
@@ -25,4 +26,4 @@ const authorize = async (req, res, next) => {
   }
 };
 
-module.exports=authorize
+module.exports = authorize;
