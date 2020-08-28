@@ -15,15 +15,20 @@ passport.use(
       const newUser = {
         name: profile.name.givenName,
         surname: profile.name.familyname,
+        email: profile.emails[0].value,
       };
 
       try {
-        const user = userModel.findOne({ facebookId: profile.id });
-        if (user) {
+        console.log("trying!!!!!!");
+        const user = userModel.findOne({ googleId: profile.id });
+        console.log("USER", user);
+        if (user.name) {
           done(null, user);
         } else {
-          await userModel.create(newUser);
-          done(null, newUser);
+          console.log("NOTUSER", user);
+          const createdUser = await userModel.create(newUser);
+
+          done(null, createdUser);
         }
       } catch (error) {
         done(error);
@@ -32,10 +37,10 @@ passport.use(
   )
 );
 
-passport.serializeUser(function (student, done) {
-  done(null, student);
+passport.serializeUser(function (user, done) {
+  done(null, user);
 });
 
-passport.deserializeUser(function (student, done) {
-  done(null, student);
+passport.deserializeUser(function (user, done) {
+  done(null, user);
 });

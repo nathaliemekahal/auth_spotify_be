@@ -19,7 +19,7 @@ const userSchema = new Schema({
     // },
   },
   password: { type: String },
-  facebookId: String,
+  googleId: { type: String },
 });
 
 userSchema.methods.toJSON = function () {
@@ -33,9 +33,9 @@ userSchema.methods.toJSON = function () {
 };
 
 userSchema.pre("save", async function (next) {
-  const student = this;
-  if (student.isModified("password")) {
-    student.password = await bcrypt.hash(student.password, 8);
+  const user = this;
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(student.password, 8);
   }
   next();
 });
